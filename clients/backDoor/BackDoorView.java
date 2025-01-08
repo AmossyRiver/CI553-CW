@@ -18,8 +18,8 @@ public class BackDoorView implements Observer
   private static final String QUERY    = "Query";
   private static final String EDIT_PRICE = "Edit Price";
  
-  private static final int H = 300;       // Height of window pixels
-  private static final int W = 400;       // Width  of window pixels
+  private static final int H = 310;       // Height of window pixels
+  private static final int W = 410;       // Width  of window pixels
 
   private final JLabel      pageTitle  = new JLabel();
   private final JLabel      theAction  = new JLabel();
@@ -57,29 +57,50 @@ public class BackDoorView implements Observer
     rootWindow.setSize( W, H );                     // Size of Window
     rootWindow.setLocation( x, y );
     
-    Font f = new Font("Monospaced",Font.PLAIN,12);  // Font f is
+    Font f = new Font("Poppins",Font.PLAIN,12);
+    Color w = new Color(0xFA, 0xFA, 0xFA, 0xFF);
+    Color b = new Color(56, 56, 56, 0xFF);
+    Color bd = new Color(122, 61, 169, 0xFF);// Font f is
 
-    pageTitle.setBounds( 110, 0 , 270, 20 );       
+    pageTitle.setBounds( 110, 0 , 270, 20 );
+    pageTitle.setFont( f );
+    pageTitle.setForeground(w);
     pageTitle.setText( "Staff check and manage stock" );                        
     cp.add( pageTitle );
     
-    theBtQuery.setBounds( 16, 25+60*0, 80, 40 );    // Buy button 
+    theBtQuery.setBounds( 16, 25, 80, 40 );
+    theBtQuery.setBackground(b);                   // Background color
+    theBtQuery.setForeground(w);                   // Text color
+    theBtQuery.setFont( f );                       // Font
+    theBtQuery.setBorder(BorderFactory.createLineBorder(bd, 2)); // Border
     theBtQuery.addActionListener(                   // Call back code
       e -> cont.doQuery( theInput.getText() ) );
     cp.add( theBtQuery );                           //  Add to canvas
 
-    theBtRStock.setBounds( 16, 25+60*1, 80, 40 );   // Check Button
+    theBtRStock.setBounds( 16, 25+60, 80, 40 );   // Check Button
+    theBtRStock.setBackground(b);                   // Background color
+    theBtRStock.setForeground(w);                   // Text color
+    theBtRStock.setFont( f );                       // Font
+    theBtRStock.setBorder(BorderFactory.createLineBorder(bd, 2)); // Border
     theBtRStock.addActionListener(                  // Call back code
       e -> cont.doRStock( theInput.getText(),
                           theInputNo.getText() ) );
     cp.add( theBtRStock );                          //  Add to canvas
 
-    theBtClear.setBounds( 16, 25+60*2, 80, 40 );    // Clear button 
+    theBtClear.setBounds( 16, 25+120, 80, 40 );    // Clear button
+    theBtClear.setBackground(b);                    // Background color
+    theBtClear.setForeground(w);                    // Text color
+    theBtClear.setFont( f );                        // Font
+    theBtClear.setBorder(BorderFactory.createLineBorder(bd, 2)); // Border
     theBtClear.addActionListener(                   // Call back code
       e -> cont.doClear() );
     cp.add( theBtClear );                           //  Add to canvas
     
-    theBtEditPrice.setBounds( 16, 25+60*3, 80, 40 );   // Edit Price button
+    theBtEditPrice.setBounds( 16, 25+180, 80, 40 );   // Edit Price button
+    theBtEditPrice.setBackground(b);                    // Background color
+    theBtEditPrice.setForeground(w);                    // Text color
+    theBtEditPrice.setFont( f );                        // Font
+    theBtEditPrice.setBorder(BorderFactory.createLineBorder(bd, 2)); // Border
     theBtEditPrice.addActionListener(                 // Call back code
       e -> cont.doEditPrice(theInput.getText(),
                             theInputNo.getText()) ); 
@@ -87,14 +108,18 @@ public class BackDoorView implements Observer
 
  
     theAction.setBounds( 110, 25 , 270, 20 );       // Message area
+    theAction.setFont( f );                         // Font
+    theAction.setForeground(w);                     // Text color
     theAction.setText( "" );                        // Blank
     cp.add( theAction );                            //  Add to canvas
 
     theInput.setBounds( 110, 50, 120, 40 );         // Input Area
+    theInput.setFont( f );                          // Font
     theInput.setText("");                           // Blank
     cp.add( theInput );                             //  Add to canvas
     
     theInputNo.setBounds( 260, 50, 120, 40 );       // Input Area
+    theInputNo.setFont( f );                        // Font
     theInputNo.setText("0");                        // 0
     cp.add( theInputNo );                           //  Add to canvas
 

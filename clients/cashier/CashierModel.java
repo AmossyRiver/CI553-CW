@@ -145,8 +145,9 @@ public class CashierModel extends Observable
         theBasket = null;                     //  reset
       }                                       //
       theAction = "Start New Order";            // New order
+      setChanged(); notifyObservers("Clear Input View"); // Notify to clear input in view
       theState = State.process;               // All Done
-       theBasket = null;
+      theBasket = null;
     } catch( OrderException e )
     {
       DEBUG.error( "%s\n%s", 

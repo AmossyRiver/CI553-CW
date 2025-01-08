@@ -18,8 +18,8 @@ public class PackingView implements Observer
 {
   private static final String PACKED = "Packed";
 
-  private static final int H = 300;       // Height of window pixels
-  private static final int W = 400;       // Width  of window pixels
+  private static final int H = 310;       // Height of window pixels
+  private static final int W = 410;       // Width  of window pixels
 
   private final JLabel      pageTitle  = new JLabel();
   private final JLabel      theAction  = new JLabel();
@@ -53,18 +53,29 @@ public class PackingView implements Observer
     rootWindow.setSize( W, H );                     // Size of Window
     rootWindow.setLocation( x, y );
     
-    Font f = new Font("Monospaced",Font.PLAIN,12);  // Font f is
+    Font f = new Font("Poppins",Font.PLAIN,12);  // Font f is
+    Color w = new Color(0xFA, 0xFA, 0xFA, 0xFF);
+    Color b = new Color(56, 56, 56, 0xFF);
+    Color bd = new Color(122, 61, 169, 0xFF);
     
     pageTitle.setBounds( 110, 0 , 270, 20 );       
-    pageTitle.setText( "Packing Bought Order" );                        
+    pageTitle.setText( "Packing Bought Order" );
+    pageTitle.setFont( f );
+    pageTitle.setForeground( w );
     cp.add( pageTitle );
 
-    theBtPack.setBounds( 16, 25+60*0, 80, 40 );   // Check Button
+    theBtPack.setBounds( 16, 25+60, 80, 40 );   // Check Button
+    theBtPack.setFont( f );
+    theBtPack.setBackground( b );
+    theBtPack.setForeground( w );
+    theBtPack.setBorder(BorderFactory.createLineBorder(bd , 2));
     theBtPack.addActionListener(                   // Call back code
       e -> cont.doPacked() );
     cp.add( theBtPack );                          //  Add to canvas
 
     theAction.setBounds( 110, 25 , 270, 20 );       // Message area
+    theAction.setFont( f );
+    theAction.setForeground( w );
     theAction.setText( "" );                        // Blank
     cp.add( theAction );                            //  Add to canvas
 
