@@ -95,38 +95,39 @@ public class CashierModel extends Observable
   /**
    * Buy the product
    */
-  public void doBuy()
-  {
+
+  public void doBuy() {
     String theAction = "";
-    int    amount  = 1;                         //  & quantity
-    try
-    {
-      if ( theState != State.checked )          // Not checked
+    int amount = 1;                         //  & quantity
+    try {
+      if (theState != State.checked)          // Not checked
       {                                         //  with customer
         theAction = "please check its availablity";
       } else {
         boolean stockBought =                   // Buy
-          theStock.buyStock(                    //  however
-            theProduct.getProductNum(),         //  may fail              
-            theProduct.getQuantity() );         //
-        if ( stockBought )                      // Stock bought
+                theStock.buyStock(                    //  however
+                        theProduct.getProductNum(),         //  may fail
+                        theProduct.getQuantity());         //
+        if (stockBought)                      // Stock bought
         {                                       // T
           makeBasketIfReq();                    //  new Basket ?
-          theBasket.add( theProduct );          //  Add to bought
+          theBasket.add(theProduct);          //  Add to bought
+          theStock.addStock(                    //  Add one back to stock
+                  theProduct.getProductNum(), 1);     //
           theAction = "Purchased " +            //    details
                   theProduct.getDescription();  //
         } else {                                // F
           theAction = "!!! Not in stock";       //  Now no stock
         }
       }
-    } catch( StockException e )
-    {
-      DEBUG.error( "%s\n%s", 
-            "CashierModel.doBuy", e.getMessage() );
+    } catch (StockException e) {
+      DEBUG.error("%s\n%s",
+              "CashierModel.doBuy", e.getMessage());
       theAction = e.getMessage();
     }
     theState = State.process;                   // All Done
-    setChanged(); notifyObservers(theAction);
+    setChanged();
+    notifyObservers(theAction);
   }
   
   /**
@@ -135,27 +136,39 @@ public class CashierModel extends Observable
   public void doBought()
   {
     String theAction = "";
-    int    amount  = 1;                       //  & quantity
     try
     {
-      if ( theBasket != null &&
-           theBasket.size() >= 1 )            // items > 1
-      {                                       // T
-        theOrder.newOrder( theBasket );       //  Process order
-        theBasket = null;                     //  reset
-      }                                       //
-      theAction = "Start New Order";            // New order
-      setChanged(); notifyObservers("Clear Input View"); // Notify to clear input in view
-      theState = State.process;               // All Done
-      theBasket = null;
-    } catch( OrderException e )
-    {
-      DEBUG.error( "%s\n%s", 
-            "CashierModel.doCancel", e.getMessage() );
+      if (theBasket != null && theBasket.size() >= 1)      // items > 1
+      {
+        for (Product product : theBasket) {               // Iterate over products
+          if (!theStock.exists(product.getProductNum()) || 
+              theStock.getDetails(product.getProductNum()).getQuantity() < product.getQuantity()) {
+            theAction = String.format("Product %s not available in required quantity.", 
+                                      product.getDescription());
+            theBasket.remove(product);
+            setChanged();
+            notifyObservers(theAction);
+            return;                                        // Exit if any product is unavailable
+          }
+        }
+        for (Product product : theBasket) {               // Iterate through basket
+          theStock.buyStock(product.getProductNum(), 1);  // Deduct 1 from stock
+        }
+        theOrder.newOrder(theBasket);                     // Process the order
+        theAction = "Order placed successfully. Start New Order";
+        theState = State.process;                         // Reset state
+        theBasket = null;                                 // Reset basket
+        setChanged();
+        notifyObservers("Clear Input View");              // Clear input in view
+      } else {
+        theAction = "Basket is empty. Add items before purchasing.";
+      }
+    } catch (OrderException | StockException e) {
+      DEBUG.error("%s\n%s", "CashierModel.doBought", e.getMessage());
       theAction = e.getMessage();
     }
-    theBasket = null;
-    setChanged(); notifyObservers(theAction); // Notify
+    setChanged();
+    notifyObservers(theAction);                           // Notify observers
   }
 
   /**
