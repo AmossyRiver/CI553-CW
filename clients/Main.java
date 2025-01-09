@@ -83,8 +83,8 @@ public class Main {
         // Set buttons' background, text color, border color, and font style
         Color buttonBackgroundColor = new Color(0x38, 0x38, 0x38, 0xFF);
         Font buttonFont = new Font("Poppins", Font.BOLD, 14);
-        Color buttonTextColor = new Color(0xFA, 0xFA, 0xFA, 0xFF); // Match header label text color
-        Color buttonBorderColor = new Color(122, 61, 169, 0xFF); // New border color
+        Color buttonTextColor = new Color(0xFA, 0xFA, 0xFA, 0xFF);
+        Color buttonBorderColor = new Color(122, 61, 169, 0xFF);
         setupButtonProperties(customerButton, buttonBackgroundColor, buttonTextColor, buttonBorderColor, buttonFont);
         setupButtonProperties(cashierButton, buttonBackgroundColor, buttonTextColor, buttonBorderColor, buttonFont);
         setupButtonProperties(packingButton, buttonBackgroundColor, buttonTextColor, buttonBorderColor, buttonFont);
